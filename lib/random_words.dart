@@ -46,7 +46,39 @@ class _RandomWordsState extends State<RandomWords> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('WordPair Generator')),
+      appBar: AppBar(
+        title: Text('WordPair Generator'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    final tiles = _savedWordPairs.map((pair) {
+                      return ListTile(
+                        title: Text(
+                          pair.asPascalCase,
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      );
+                    });
+                    final divided = ListTile.divideTiles(
+                      context: context,
+                      tiles: tiles,
+                    ).toList();
+
+                    return Scaffold(
+                      appBar: AppBar(title: Text('Saved WordPairs')),
+                      body: ListView(children: divided),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: _buildList(),
     );
   }
